@@ -315,7 +315,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         User currentUser = userService.getUserByUsername(email);
 
-        if (!currentUser.getRole().equals("ADMIN") && !currentUser.getRole().equals("MANAGER")) {
+        if (!currentUser.getRole().getName().equals("ADMIN") && !currentUser.getRole().getName().equals("SELLER")) {
             throw new IdInvalidException("Access denied");
         }
 

@@ -50,6 +50,9 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
         List<Object[]> results = this.orderRepository.getRevenueByMonth();
         List<RevenueByMonthResponse> revenueByMonth = new ArrayList<>();
         for (Object[] row : results) {
+            if (row[0] == null || row[1] == null || row[2] == null) {
+                continue;
+            }
             int year = ((Number) row[0]).intValue();
             int month = ((Number) row[1]).intValue();
             BigDecimal totalRevenue = (BigDecimal) row[2];

@@ -18,7 +18,7 @@ public class CheckoutController {
         this.checkOutService = checkOutService;
     }
 
-    @GetMapping("/checkout")
+    @PostMapping("/checkout")
     @ApiMessage("Checkout information retrieved successfully")
     public ResponseEntity<CheckoutResponseDTO> checkout(@Valid @RequestBody CheckoutRequestDTO checkoutRequestDTO) {
         CheckoutResponseDTO checkOutResponseDTO = this.checkOutService.getCheckout(checkoutRequestDTO);

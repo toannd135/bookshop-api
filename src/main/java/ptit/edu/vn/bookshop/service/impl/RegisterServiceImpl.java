@@ -43,14 +43,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public String userRegister(RegisterRequestDTO registerRequestDTO) {
-        String password = registerRequestDTO.getPassword();
-        String confirmPassword = registerRequestDTO.getConfirmPassword();
-        if (!password.equals(confirmPassword)) {
-            throw new IllegalArgumentException("Password and Confirm Password do not match");
-        }
-
         Optional<User> userOptional = this.userRepository.findByEmail(registerRequestDTO.getEmail());
         User user;
+        String password = registerRequestDTO.getPassword();
         if (userOptional.isPresent()) {
             user = userOptional.get();
             if (user.getStatus().equals(StatusEnum.ACTIVE)) {
@@ -64,7 +59,6 @@ public class RegisterServiceImpl implements RegisterService {
             sendVerificationEmail(user);
             return "Email already exists but inactive. Information updated and verification email resent.";
         }
-
         // Nếu chưa tồn tại, tạo user mới
         user = this.userMapper.fromRegisterDto(registerRequestDTO);
         user.setStatus(StatusEnum.INACTIVE);
@@ -73,11 +67,8 @@ public class RegisterServiceImpl implements RegisterService {
         Role role = this.roleRepository.findByName("USER")
                 .orElseThrow(() -> new UsernameNotFoundException("Role not found"));
         user.setRole(role);
-
         this.userRepository.save(user);
-
         sendVerificationEmail(user);
-
         return "Registration successful. Please check your email to verify your account.";
     }
 
@@ -113,6 +104,7 @@ public class RegisterServiceImpl implements RegisterService {
         user.setStatus(StatusEnum.ACTIVE);
         this.userRepository.save(user);
         redisTokenService.deleteVerificationToken(token);
+
         return "Account verified successfully";
     }
 

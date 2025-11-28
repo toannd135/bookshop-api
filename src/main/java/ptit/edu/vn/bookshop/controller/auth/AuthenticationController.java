@@ -53,25 +53,22 @@ public class AuthenticationController {
     @PostMapping("/login")
     @ApiMessage("user login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
-
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
         // xac thuc nguoi dung goi den ham loadUserByUsername
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
-
         LoginResponseDTO response = new LoginResponseDTO();
         UserResponseDTO user = this.userService.getUserByEmail(loginRequestDTO.getUsername());
-
         // Map Role -> UserRoleResponseDTO
         UserResponseDTO.UserRoleResponseDTO roleDTO = new UserResponseDTO.UserRoleResponseDTO(
                 user.getRole().getId(),
                 user.getRole().getName()
         );
-
         if (user != null) {
-            LoginResponseDTO.UserLogin userLogin = new LoginResponseDTO.UserLogin(user.getId(), user.getName(), user.getEmail(), user.getStatus(), roleDTO);
+            LoginResponseDTO.UserLogin userLogin = new LoginResponseDTO.UserLogin(user.getId(), user.getName(),
+                    user.getEmail(), user.getStatus(), roleDTO);
             response.setUser(userLogin);
         }
-
         //create access_token
         String accessToken = this.securityUtil.createAccessToken(authentication.getName(), response);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -108,7 +105,8 @@ public class AuthenticationController {
         }
 
         LoginResponseDTO response = new LoginResponseDTO();
-        LoginResponseDTO.UserLogin userLogin = new LoginResponseDTO.UserLogin(user.getId(), user.getName(), user.getEmail(), user.getStatus(), user.getRole());
+        LoginResponseDTO.UserLogin userLogin = new LoginResponseDTO.UserLogin(user.getId(), user.getName(),
+                user.getEmail(), user.getStatus(), user.getRole());
         response.setUser(userLogin);
 
         //create access_token
