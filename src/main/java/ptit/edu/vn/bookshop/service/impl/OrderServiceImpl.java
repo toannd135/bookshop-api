@@ -12,10 +12,12 @@ import ptit.edu.vn.bookshop.dto.request.UpdateStatusRequestDTO;
 import ptit.edu.vn.bookshop.dto.response.OrderResponseDTO;
 import ptit.edu.vn.bookshop.dto.response.page.OrderPageResponseDTO;
 import ptit.edu.vn.bookshop.domain.entity.*;
+import ptit.edu.vn.bookshop.dto.response.page.UserPageResponseDTO;
 import ptit.edu.vn.bookshop.exception.IdInvalidException;
 import ptit.edu.vn.bookshop.exception.UsernameNotFoundException;
 import ptit.edu.vn.bookshop.repository.*;
 import ptit.edu.vn.bookshop.repository.specification.OrderSpecificationBuilder;
+import ptit.edu.vn.bookshop.repository.specification.UserSpecificationBuilder;
 import ptit.edu.vn.bookshop.service.OrderService;
 import ptit.edu.vn.bookshop.service.UserService;
 import ptit.edu.vn.bookshop.mapper.OrderMapper;
@@ -327,4 +329,19 @@ public class OrderServiceImpl implements OrderService {
         }
         return this.orderMapper.toOrderResponseDTO(this.orderRepository.save(order));
     }
+
+    @Override
+    public OrderPageResponseDTO getAllAdminOrders() {
+        String email = SecurityUtil.getCurrentUserLogin()
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found."));
+
+        User user = this.userService.getUserByUsername(email);
+        List<Order> orders = this.orderRepository.findAll();
+
+        List<OrderResponseDTO> orderDTOs = orders.stream()
+                .map(orderMapper::toOrderResponseDTO)
+                .toList();
+        return new OrderPageResponseDTO(orderDTOs);
+    }
+
 }

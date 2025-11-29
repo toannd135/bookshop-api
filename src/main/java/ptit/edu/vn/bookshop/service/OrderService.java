@@ -14,4 +14,6 @@ public interface OrderService {
     OrderResponseDTO getOrder(Long id);
     OrderPageResponseDTO getAllOrders(Pageable pageable, String[] orders);
     OrderResponseDTO updateOrderStatus(UpdateStatusRequestDTO updateStatusRequestDTO, Long id);
+    OrderPageResponseDTO getAllAdminOrders();
+
 }

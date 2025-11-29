@@ -74,5 +74,10 @@ public class OrderController {
     }
     //admin co quyen cap nhap full thong tin don hang
 
+    @GetMapping("/admin/orders")
+    public ResponseEntity<OrderPageResponseDTO> getAllAdminOrders() {
+        OrderPageResponseDTO orderResponseDTO = this.orderService.getAllAdminOrders();
+        return ResponseEntity.ok().body(orderResponseDTO);
+    }
 
 }

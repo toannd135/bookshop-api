@@ -1,50 +1,50 @@
-package ptit.edu.vn.bookshop.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ptit.edu.vn.bookshop.service.UserService;
-
-
-@Configuration
-public class PermissionIntercepterConfiguration implements WebMvcConfigurer {
-
-    @Bean
-    PermissionIntercepter permissionIntercepter() {
-        return new PermissionIntercepter();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        String[] whiteList = {
-                "/",
-                "/api/v1/addresses/**",
-                "/api/v1/books/discount",
-                "/api/v1/books/newest",
-                "/api/v1/reviews/*",
-                "/api/v1/checkout",
-                "/api/v1/cloudinary/*",
-                "/api/v1/carts/**",
-                "/api/v1/carts/items/*",
-                "/api/v1/auth/verify",
-                "/api/v1/auth/register",
-                "/api/v1/auth/refresh",
-                "/api/v1/auth/account",
-                "/api/v1/auth/login",
-                "/api/v1/files/**",
-                "/api/v1/auth/forgot-password",
-                "/api/v1/auth/verify-otp",
-                "/api/v1/auth/reset-password",
-                "/storage/**",
-                "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html"
-        };
-
-        registry.addInterceptor(permissionIntercepter())
-                .addPathPatterns("/**")          // Áp dụng cho tất cả request
-                .excludePathPatterns(whiteList); // Bỏ qua các API public
-    }
-}
-
+//package ptit.edu.vn.bookshop.config;
+//
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+//import ptit.edu.vn.bookshop.service.UserService;
+//
+//
+//@Configuration
+//public class PermissionIntercepterConfiguration implements WebMvcConfigurer {
+//
+//    @Bean
+//    PermissionIntercepter permissionIntercepter() {
+//        return new PermissionIntercepter();
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        String[] whiteList = {
+//                "/",
+//                "/api/v1/addresses/**",
+//                "/api/v1/books/discount",
+//                "/api/v1/books/newest",
+//                "/api/v1/reviews/*",
+//                "/api/v1/checkout",
+//                "/api/v1/cloudinary/*",
+//                "/api/v1/carts/**",
+//                "/api/v1/carts/items/*",
+//                "/api/v1/auth/verify",
+//                "/api/v1/auth/register",
+//                "/api/v1/auth/refresh",
+//                "/api/v1/auth/account",
+//                "/api/v1/auth/login",
+//                "/api/v1/files/**",
+//                "/api/v1/auth/forgot-password",
+//                "/api/v1/auth/verify-otp",
+//                "/api/v1/auth/reset-password",
+//                "/storage/**",
+//                "/v3/api-docs/**",
+//                "/swagger-ui/**",
+//                "/swagger-ui.html"
+//        };
+//
+//        registry.addInterceptor(permissionIntercepter())
+//                .addPathPatterns("/**")          // Áp dụng cho tất cả request
+//                .excludePathPatterns(whiteList); // Bỏ qua các API public
+//    }
+//}
+//
